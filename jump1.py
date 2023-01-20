@@ -3,6 +3,7 @@
 """
 import os
 import sys
+import json
 import pyautogui
 from pynput import keyboard
 import time
@@ -12,6 +13,10 @@ from pynput.mouse import Button, Controller
 SECOND_DISTANCE = 528
 # 单次完成后延时秒数（可按实际修改配置）
 FINISHED_DELAY = 2
+# 横纵坐标偏移量
+X_DV = 7
+Y_DV = 69
+
 
 # 不需要修改
 x1, y1 = 0, 0
@@ -35,7 +40,7 @@ def get_person_point():
     if not p:
         return None, None
     # 偏移调整
-    return p.x + 7, p.y + 69
+    return p.x + X_DV, p.y + Y_DV
 
 
 # 重置为默认
@@ -91,7 +96,22 @@ def on_press(key):
         run_jump(x1, y1, x2, y2)
 
 
+def init_config():
+    try:
+        with open('config.json', 'r') as f:
+            config_text = f.read()
+            config = json.loads(config_text)
+            global SECOND_DISTANCE, FINISHED_DELAY, X_DV, Y_DV
+            SECOND_DISTANCE = config.get('second_distance')
+            FINISHED_DELAY = config.get('finish_delay')
+            X_DV = config.get('x_dv')
+            Y_DV = config.get('y_dv')
+    except:
+        pass
+
+
 if __name__ == "__main__":
+    init_config()
     reset()
     with keyboard.Listener(on_press=on_press) as lsn:
         lsn.join()
