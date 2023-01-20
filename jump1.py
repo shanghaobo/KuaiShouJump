@@ -1,7 +1,8 @@
 """
 自动识别兔子坐标版，考虑透视计算
 """
-
+import os
+import sys
 import pyautogui
 from pynput import keyboard
 import time
@@ -17,11 +18,20 @@ x1, y1 = 0, 0
 x2, y2 = 0, 0
 
 
+def resource_path(relative_path):
+    """将相对路径转为exe运行时资源文件的绝对路径"""
+    if hasattr(sys, '_MEIPASS'):
+        base_path = sys._MEIPASS  # 只有通过exe运行时才会进入这个分支，它返回的是exe运行时的临时目录路径
+    else:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+
 # 获取兔子坐标
 def get_person_point():
-    p = pyautogui.locateCenterOnScreen('rabbitRight.png', confidence=0.75)
+    p = pyautogui.locateCenterOnScreen(resource_path('img/rabbitRight.png'), confidence=0.75)
     if not p:
-        p = pyautogui.locateCenterOnScreen('rabbitLeft.png', confidence=0.75)
+        p = pyautogui.locateCenterOnScreen(resource_path('img/rabbitLeft.png'), confidence=0.75)
     if not p:
         return None, None
     # 偏移调整

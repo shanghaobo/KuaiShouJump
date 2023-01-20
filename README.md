@@ -3,6 +3,10 @@
 #### 演示视频
 [https://www.bilibili.com/video/BV1f84y1b7aj](https://www.bilibili.com/video/BV1f84y1b7aj)
 
+#### 运行方式
+- 直接用打包好的exe文件
+- 或`pip install -r requirements.txt`后运行`jump1.py`
+
 #### 使用方法
 1. 电脑打开手机模拟器或手机投屏（得能控制手机）
 2. 进入快手跳一跳界面
